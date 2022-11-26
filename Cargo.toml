@@ -1,0 +1,15 @@
+[package]
+name = "plex-backup"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+config = "0.13"
+chrono = "0.4"
+flate2="1.0"
+ftp = "3.0"
+log="0.4"
+systemd-journal-logger = "0.5"
+tar="0.4"
