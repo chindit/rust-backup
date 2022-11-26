@@ -20,11 +20,17 @@ fn main() -> Result<(), Box<dyn error::Error>> {
         .build()
         .unwrap();
 
+    let mut temp_directory = settings.get::<String>("tempDirectory").unwrap();
+    if !temp_directory.ends_with("/") {
+        temp_directory.push('/');
+    }
+
     info!("Backup started");
 
     let archive: String = compress(settings
         .get::<String>("sourceDirectory")
-        .unwrap());
+        .unwrap(),
+        temp_directory);
 
     upload(
         archive.to_string(),
@@ -38,12 +44,13 @@ fn main() -> Result<(), Box<dyn error::Error>> {
     Ok(())
 }
 
-fn compress(source_directory: String) -> String {
+fn compress(source_directory: String, temp_directory: String) -> String {
     println!("Starting compression");
 
     let date: DateTime<Utc> = Utc::now();
     let mut filename = String::new();
-    filename.push_str("/tmp/plex_");
+    filename.push_str(&temp_directory);
+    filename.push_str("plex_");
     filename.push_str(&format!("{}", date.format("%d%m%Y")));
     filename.push_str(".tar.gz");
 
