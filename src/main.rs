@@ -43,7 +43,7 @@ fn compress(source_directory: String) -> String {
 
     let date: DateTime<Utc> = Utc::now();
     let mut filename = String::new();
-    filename.push_str("plex_");
+    filename.push_str("/tmp/plex_");
     filename.push_str(&format!("{}", date.format("%d%m%Y")));
     filename.push_str(".tar.gz");
 
