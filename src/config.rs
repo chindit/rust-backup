@@ -18,9 +18,7 @@ pub(crate) struct ConfigFtp {
 
 impl Config {
     pub(crate) fn from_file(file_name: &str) -> Result<Config, Box<dyn Error>> {
-        let settings = config::Config::builder()
-            .add_source(config::File::with_name(file_name))
-            .build()?;
+        let settings = config::Config::builder().add_source(config::File::with_name(file_name)).build()?;
 
         let source_directory = settings.get::<String>("sourceDirectory")?;
         let mut temp_directory = settings.get::<String>("tempDirectory")?;
