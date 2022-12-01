@@ -24,7 +24,7 @@ fn main() -> Result<(), Box<dyn error::Error>> {
 	let ftp_username = settings.get::<String>("ftp.username").unwrap();
 	let ftp_password = settings.get::<String>("ftp.password").unwrap();
 
-	if !temp_directory.ends_with("/") {
+	if !temp_directory.ends_with('/') {
 		temp_directory.push('/');
 	}
 
@@ -54,7 +54,7 @@ fn compress(source_directory: &str, temp_directory: &str) -> String {
 	};
 	let enc = GzEncoder::new(tar_gz, Compression::default());
 	let mut tar = tar::Builder::new(enc);
-	match tar.append_dir_all("", &source_directory) {
+	match tar.append_dir_all("", source_directory) {
 		Ok(()) => (),
 		Err(error) => {
 			error!("Unable to append dir {}.  Returned error is {}", &source_directory, error);
@@ -67,16 +67,16 @@ fn compress(source_directory: &str, temp_directory: &str) -> String {
 
 	println!("Compression success");
 
-	return filename;
+	filename
 }
 
 fn upload(filename: &str, server: &str, username: &str, password: &str) {
 	println!("Starting upload");
 
-	let mut file: File = File::open(&filename).expect("Could not open created archive");
-	let mut ftp_stream = FtpStream::connect(&server).expect("Could not connect to ftp");
-	ftp_stream.login(&username, &password).expect("Could not login on ftp");
-	ftp_stream.put(&filename, &mut file).expect("Could not upload file to ftp");
+	let mut file: File = File::open(filename).expect("Could not open created archive");
+	let mut ftp_stream = FtpStream::connect(server).expect("Could not connect to ftp");
+	ftp_stream.login(username, password).expect("Could not login on ftp");
+	ftp_stream.put(filename, &mut file).expect("Could not upload file to ftp");
 
 	println!("Successfully uploaded file");
 
